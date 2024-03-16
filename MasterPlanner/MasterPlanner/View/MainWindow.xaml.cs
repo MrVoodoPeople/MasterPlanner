@@ -9,6 +9,9 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using MasterPlanner.Controller;
+using MasterPlanner.Model;
+using Npgsql.EntityFrameworkCore.PostgreSQL;
+using Microsoft.EntityFrameworkCore;
 
 namespace MasterPlanner.View
 {
@@ -30,5 +33,54 @@ namespace MasterPlanner.View
             DateTime? selectedDate = calendar1.SelectedDate;
             dateLabel.Content = selectedDate?.ToShortDateString();
         }
+
+        private void Button_Add_Click(object sender, RoutedEventArgs e)
+        {
+            var context = new TestDbContext();
+            var test = DateTime.Parse(dateLabel.Content.ToString());
+            TestModel model = new TestModel()
+            {
+                Date = test.ToUniversalTime(),
+                Notes = "TEST"
+            };
+
+            context.Notes.Add(model);
+            context.SaveChanges();
+        }
+
+        private void Button_Delete_Click(object sender, RoutedEventArgs e)
+{
+    // Предполагаем, что у вас есть DataGrid с именем dataGrid
+    var selectedOrder = listView.SelectedItem as TestModel; // Получаем выбранный элемент
+
+    if (selectedOrder != null) // Проверяем, что элемент действительно выбран
+    {
+        using (var context = new TestDbContext()) // Создаем контекст базы данных
+        {
+            context.Entry(selectedOrder).State = EntityState.Deleted; // Устанавливаем состояние объекта как "Deleted"
+            context.SaveChanges(); // Сохраняем изменения в базе данных
+        }
+
+                // Обновляем данные в DataGrid или обновляем вашу коллекцию, если используется привязка данных
+                listView.Items.Refresh();
+    }
+    else
+    {
+        MessageBox.Show("Выберите элемент для удаления.");
+    }
+}
+
+     /*   private void Button_Update_Click(object sender, RoutedEventArgs e)
+        {
+            var context = new TestDbContext();
+            TestModel order = new TestModel
+            {
+                Id = 2 
+            };
+            context.Notes.Attach(order);
+            context.Notes.Remove(order);
+
+            context.SaveChanges();
+        }*/
     }
 }

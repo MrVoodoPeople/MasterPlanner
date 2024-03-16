@@ -16,7 +16,7 @@ namespace MasterPlanner.Model
         [Column("id")]
         public int Id { get; set; }
         [Column("date")]
-        public DateTime Date { get; set; }
+        public DateTime? Date { get; set; }
         [Column("notes")]
         public string? Notes { get; set; }
     }

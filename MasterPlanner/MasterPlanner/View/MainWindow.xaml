@@ -23,7 +23,7 @@
             <Label x:Name="dateLabel"/>
         </StackPanel>
 
-        <ListView ItemsSource="{Binding Items}" Grid.Column="1">
+        <ListView x:Name="listView" ItemsSource="{Binding Items}" Grid.Column="1">
             <ListView.View>
                 <GridView>
                     <GridViewColumn Header="ID" DisplayMemberBinding="{Binding Id}" />
@@ -34,10 +34,10 @@
         </ListView>
 
         <StackPanel Grid.Column="2" Grid.Row="0">
-        <Button Content="Добавить" />
-        <Button Content= "Удалить" />
-        <Button Content= "Обновить" />
-        <Button Content= "Вывести" />
+            <Button Content="Добавить" Click="Button_Add_Click" />
+            <Button Content= "Удалить"  Click="Button_Delete_Click"/>
+            <Button Content= "Обновить"/>
+            <Button Content= "Вывести" />
         </StackPanel>
     </Grid>
 </Window>
