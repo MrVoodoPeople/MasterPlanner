@@ -14,12 +14,14 @@
         <Grid.ColumnDefinitions>
 
             <ColumnDefinition Width="Auto"/>
-            <ColumnDefinition/>
-            <ColumnDefinition/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="Auto"/>
         </Grid.ColumnDefinitions>
 
-        <Calendar x:Name="calendar1" Grid.Row="0" Grid.Column="0" SelectedDatesChanged="calendar_SelectedDatesChanged"/>
-        <Label x:Name="dateLabel" Grid.Row="1" Grid.Column="0"/>
+        <StackPanel Grid.Column="0" Grid.Row="0">
+            <Calendar x:Name="calendar1" SelectedDatesChanged="calendar_SelectedDatesChanged"/>
+            <Label x:Name="dateLabel"/>
+        </StackPanel>
 
         <ListView ItemsSource="{Binding Items}" Grid.Column="1">
             <ListView.View>
@@ -31,5 +33,11 @@
             </ListView.View>
         </ListView>
 
+        <StackPanel Grid.Column="2" Grid.Row="0">
+        <Button Content="Добавить" />
+        <Button Content= "Удалить" />
+        <Button Content= "Обновить" />
+        <Button Content= "Вывести" />
+        </StackPanel>
     </Grid>
 </Window>
