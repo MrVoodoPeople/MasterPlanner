@@ -50,18 +50,18 @@ namespace MasterPlanner.View
 
         private void Button_Delete_Click(object sender, RoutedEventArgs e)
 {
-    // Предполагаем, что у вас есть DataGrid с именем dataGrid
-    var selectedOrder = listView.SelectedItem as TestModel; // Получаем выбранный элемент
+  
+    var selectedOrder = listView.SelectedItem as TestModel; 
 
-    if (selectedOrder != null) // Проверяем, что элемент действительно выбран
+    if (selectedOrder != null) 
     {
-        using (var context = new TestDbContext()) // Создаем контекст базы данных
+        using (var context = new TestDbContext()) 
         {
-            context.Entry(selectedOrder).State = EntityState.Deleted; // Устанавливаем состояние объекта как "Deleted"
-            context.SaveChanges(); // Сохраняем изменения в базе данных
+            context.Entry(selectedOrder).State = EntityState.Deleted; 
+            context.SaveChanges(); 
         }
 
-                // Обновляем данные в DataGrid или обновляем вашу коллекцию, если используется привязка данных
+                
                 listView.Items.Refresh();
     }
     else
