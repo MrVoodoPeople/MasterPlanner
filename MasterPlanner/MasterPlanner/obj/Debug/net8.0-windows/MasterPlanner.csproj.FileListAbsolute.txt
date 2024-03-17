@@ -36,3 +36,5 @@ E:\mrvoo\Documents\MasterPlanner\MasterPlanner\MasterPlanner\bin\Debug\net8.0-wi
 E:\mrvoo\Documents\MasterPlanner\MasterPlanner\MasterPlanner\bin\Debug\net8.0-windows\Npgsql.EntityFrameworkCore.PostgreSQL.dll
 E:\mrvoo\Documents\MasterPlanner\MasterPlanner\MasterPlanner\obj\Debug\net8.0-windows\MasterPlanner.csproj.AssemblyReference.cache
 E:\mrvoo\Documents\MasterPlanner\MasterPlanner\MasterPlanner\obj\Debug\net8.0-windows\MasterPlanner.csproj.CopyComplete
+E:\mrvoo\Documents\MasterPlanner\MasterPlanner\MasterPlanner\obj\Debug\net8.0-windows\View\EditNoteDialog.g.cs
+E:\mrvoo\Documents\MasterPlanner\MasterPlanner\MasterPlanner\obj\Debug\net8.0-windows\View\EditNoteDialog.baml

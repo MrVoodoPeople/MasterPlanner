@@ -1,17 +1,8 @@
-﻿using System.Text;
+﻿using MasterPlanner.Controller;
+using MasterPlanner.Model;
+using Microsoft.EntityFrameworkCore;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using MasterPlanner.Controller;
-using MasterPlanner.Model;
-using Npgsql.EntityFrameworkCore.PostgreSQL;
-using Microsoft.EntityFrameworkCore;
 
 namespace MasterPlanner.View
 {
@@ -20,11 +11,13 @@ namespace MasterPlanner.View
     /// </summary>
     public partial class MainWindow : Window
     {
+        private TestC controller;
         public MainWindow()
         {
             InitializeComponent();
-            this.DataContext = new TestC();    
-            dateLabel.Content = DateTime.Now.ToString("dd/MM/yyyy") ;
+            controller = new TestC();
+            this.DataContext = controller;
+            dateLabel.Content = DateTime.Now.ToString("dd/MM/yyyy");
 
         }
 
@@ -38,49 +31,45 @@ namespace MasterPlanner.View
         {
             var context = new TestDbContext();
             var test = DateTime.Parse(dateLabel.Content.ToString());
-            TestModel model = new TestModel()
-            {
-                Date = test.ToUniversalTime(),
-                Notes = "TEST"
-            };
-
-            context.Notes.Add(model);
-            context.SaveChanges();
+            controller.AddItem(test, "Привет");
         }
 
         private void Button_Delete_Click(object sender, RoutedEventArgs e)
-{
-  
-    var selectedOrder = listView.SelectedItem as TestModel; 
-
-    if (selectedOrder != null) 
-    {
-        using (var context = new TestDbContext()) 
         {
-            context.Entry(selectedOrder).State = EntityState.Deleted; 
-            context.SaveChanges(); 
+
+            var selected = listView.SelectedItem as TestModel;
+
+            if (selected != null)
+            {
+                using (var context = new TestDbContext())
+                {
+                    controller.DeleteItem(selected);
+                }
+                listView.Items.Refresh();
+            }
+            else
+            {
+                MessageBox.Show("Выберите элемент для удаления.");
+            }
         }
 
-                
-                listView.Items.Refresh();
-    }
-    else
-    {
-        MessageBox.Show("Выберите элемент для удаления.");
-    }
-}
-
-     /*   private void Button_Update_Click(object sender, RoutedEventArgs e)
+        private void Button_Edit_Click(object sender, RoutedEventArgs e)
         {
-            var context = new TestDbContext();
-            TestModel order = new TestModel
+            var selected = listView.SelectedItem as TestModel;
+            if (selected != null)
             {
-                Id = 2 
-            };
-            context.Notes.Attach(order);
-            context.Notes.Remove(order);
-
-            context.SaveChanges();
-        }*/
+                var editNoteDialog = new EditNoteDialog(selected.Notes);
+                if (editNoteDialog.ShowDialog() == true)
+                {
+                    selected.Notes = editNoteDialog.Notes;
+                    controller.UpdateItem(selected);
+                }
+                listView.Items.Refresh();
+            }
+            else
+            {
+                MessageBox.Show("Выберите заметку для редактирования.");
+            }
+        }
     }
 }
