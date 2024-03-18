@@ -3,6 +3,7 @@ using MasterPlanner.Model;
 using Microsoft.EntityFrameworkCore;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 
 namespace MasterPlanner.View
 {
@@ -29,9 +30,24 @@ namespace MasterPlanner.View
 
         private void Button_Add_Click(object sender, RoutedEventArgs e)
         {
-            var context = new TestDbContext();
-            var test = DateTime.Parse(dateLabel.Content.ToString());
-            controller.AddItem(test, "Привет");
+            //var context = new TestDbContext();
+            var text = "Привет";
+            var date = calendar1.DisplayDate;
+            var textAndDate = new AddTextAndDate(text, date);
+            if (textAndDate.ShowDialog() == true)
+            {
+                text = textAndDate.noteTextBox.Text;
+                if (textAndDate.datePicker1.SelectedDate == null)
+                {
+                    date = textAndDate.datePicker1.DisplayDate;
+                }
+                else
+                {
+                    date = textAndDate.datePicker1.SelectedDate.Value;
+                }
+            }
+            //var test = DateTime.Parse(dateLabel.Content.ToString());
+            controller.AddItem(date, text);
         }
 
         private void Button_Delete_Click(object sender, RoutedEventArgs e)
