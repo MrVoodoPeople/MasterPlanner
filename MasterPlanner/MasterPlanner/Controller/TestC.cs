@@ -35,6 +35,11 @@ namespace MasterPlanner.Controller
 
             }
         }
+
+        public void ClearData()
+        {
+            Items.Clear();
+        }
         public void AddItem(DateTime date, string notes)
         {
             using (var context = new TestDbContext())
@@ -48,6 +53,8 @@ namespace MasterPlanner.Controller
                 context.Notes.Add(model);
                 context.SaveChanges();
                 Items.Add(model);
+                ClearData();
+                LoadData();
             }
         }
 
