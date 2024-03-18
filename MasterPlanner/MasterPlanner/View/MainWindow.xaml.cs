@@ -45,9 +45,9 @@ namespace MasterPlanner.View
                 {
                     date = textAndDate.datePicker1.SelectedDate.Value;
                 }
+                controller.AddItem(date, text);
             }
             //var test = DateTime.Parse(dateLabel.Content.ToString());
-            controller.AddItem(date, text);
         }
 
         private void Button_Delete_Click(object sender, RoutedEventArgs e)
