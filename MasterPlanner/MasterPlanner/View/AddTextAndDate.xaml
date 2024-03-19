@@ -12,7 +12,7 @@
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
         <TextBox x:Name="noteTextBox" Grid.Row="0" TextWrapping="Wrap" Margin="0,0,0,212"/>
-        <DatePicker Name="datePicker1" IsDropDownOpen="True" HorizontalContentAlignment="Center" SelectedDateFormat="Short" Margin="0,202,0,0" />
+        <Calendar Name="datePicker1" HorizontalContentAlignment="Center" Margin="0,202,0,0" />
         <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center">
             <Button x:Name="saveButton" Content="Сохранить" Margin="0,0,10,0" Click="SaveButton_Click"/>
             <Button x:Name="cancelButton" Content="Отмена" Margin="0,0,10,0" Click="CancelButton_Click"/>
