@@ -33,19 +33,22 @@ namespace MasterPlanner.View
             //var context = new TestDbContext();
             var text = "Привет";
             var date = calendar1.DisplayDate;
+            var dateEnd = calendar1.DisplayDate;
             var textAndDate = new AddTextAndDate(text, date);
             if (textAndDate.ShowDialog() == true)
             {
                 text = textAndDate.noteTextBox.Text;
-                if (textAndDate.datePicker1.SelectedDate == null)
+                if (textAndDate.datePicker1.SelectedDates == null)
                 {
                     date = textAndDate.datePicker1.DisplayDate;
+                    dateEnd = textAndDate.datePicker1.DisplayDate;
                 }
                 else
                 {
-                    date = textAndDate.datePicker1.SelectedDate.Value;
+                    date = textAndDate.datePicker1.SelectedDates.First();
+                    dateEnd = textAndDate.datePicker1.SelectedDates.Last();
                 }
-                controller.AddItem(date, text);
+                controller.AddItem(date, dateEnd, text);
             }
             //var test = DateTime.Parse(dateLabel.Content.ToString());
         }

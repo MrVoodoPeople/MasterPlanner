@@ -40,13 +40,14 @@ namespace MasterPlanner.Controller
         {
             Items.Clear();
         }
-        public void AddItem(DateTime date, string notes)
+        public void AddItem(DateTime date, DateTime dateEnd, string notes)
         {
             using (var context = new TestDbContext())
             {
                 TestModel model = new TestModel()
                 {
                     Date = date.ToUniversalTime(),
+                    DateEnd = dateEnd.ToUniversalTime(),
                     Notes = notes
                 };
 

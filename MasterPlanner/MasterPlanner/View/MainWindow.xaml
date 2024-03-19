@@ -27,6 +27,7 @@
                 <GridView>
                     <GridViewColumn Header="ID" DisplayMemberBinding="{Binding Id}" />
                     <GridViewColumn Header="Date" DisplayMemberBinding="{Binding Date}" />
+                    <GridViewColumn Header="DateEnd" DisplayMemberBinding="{Binding DateEnd}" />
                     <GridViewColumn Header="Notes" DisplayMemberBinding="{Binding Notes}" Width="Auto"/>
                 </GridView>
             </ListView.View>
