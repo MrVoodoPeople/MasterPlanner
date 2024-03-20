@@ -10,11 +10,11 @@ none
 false
 TRACE;DEBUG;NET;NET8_0;NETCOREAPP
 E:\mrvoo\Documents\MasterPlanner\MasterPlanner\MasterPlanner\App.xaml
-2-1615807960
+3-1178539609
 
-10-191670922
+11-374588947
 212660047741
-View\EditNoteDialog.xaml;View\MainWindow.xaml;
+View\AddTextAndDate.xaml;View\EditNoteDialog.xaml;View\MainWindow.xaml;
 
 True
 

@@ -26,6 +26,11 @@ namespace MasterPlanner.View
         {
             DateTime? selectedDate = calendar1.SelectedDate;
             dateLabel.Content = selectedDate?.ToShortDateString();
+            if(selectedDate is not  null )
+            {
+                var filtredDate = controller.GetItemsByDate(selectedDate);
+                listView.ItemsSource = filtredDate;
+            }
         }
 
         private void Button_Add_Click(object sender, RoutedEventArgs e)

@@ -36,11 +36,26 @@ namespace MasterPlanner.Controller
             }
         }
 
+
         public void ClearData()
         {
             Items.Clear();
         }
+        
+
+        public ObservableCollection<TestModel> GetItemsByDate(DateTime? date)
+        {
+            using(var context = new TestDbContext())
+            {
+                DateTime searchDate = DateTime.SpecifyKind(date.Value, DateTimeKind.Utc);
+                var itemsByDate = context.Notes
+                    .Where(x => x.Date == searchDate.Date)
+                    .ToList();
+                return new ObservableCollection<TestModel>(itemsByDate);
+            }
+        }
         public void AddItem(DateTime date, DateTime dateEnd, string notes)
+
         {
             using (var context = new TestDbContext())
             {

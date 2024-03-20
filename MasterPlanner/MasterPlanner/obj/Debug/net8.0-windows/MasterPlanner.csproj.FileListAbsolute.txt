@@ -38,3 +38,5 @@ E:\mrvoo\Documents\MasterPlanner\MasterPlanner\MasterPlanner\obj\Debug\net8.0-wi
 E:\mrvoo\Documents\MasterPlanner\MasterPlanner\MasterPlanner\obj\Debug\net8.0-windows\MasterPlanner.csproj.CopyComplete
 E:\mrvoo\Documents\MasterPlanner\MasterPlanner\MasterPlanner\obj\Debug\net8.0-windows\View\EditNoteDialog.g.cs
 E:\mrvoo\Documents\MasterPlanner\MasterPlanner\MasterPlanner\obj\Debug\net8.0-windows\View\EditNoteDialog.baml
+E:\mrvoo\Documents\MasterPlanner\MasterPlanner\MasterPlanner\obj\Debug\net8.0-windows\View\AddTextAndDate.g.cs
+E:\mrvoo\Documents\MasterPlanner\MasterPlanner\MasterPlanner\obj\Debug\net8.0-windows\View\AddTextAndDate.baml
