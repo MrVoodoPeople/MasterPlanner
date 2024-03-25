@@ -1,9 +1,10 @@
 ﻿using MasterPlanner.Controller;
 using MasterPlanner.Model;
-using Microsoft.EntityFrameworkCore;
+using System.Security.Cryptography.Xml;
+using System.Timers;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Controls.Primitives;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace MasterPlanner.View
 {
@@ -13,21 +14,25 @@ namespace MasterPlanner.View
     public partial class MainWindow : Window
     {
         private TestC controller;
+        private bool isReminderCheckInProgress;
+
         public MainWindow()
         {
             InitializeComponent();
-            controller = new TestC();
+            controller = new TestC(this.Dispatcher);
             this.DataContext = controller;
             dateLabel.Content = DateTime.Now.ToString("dd/MM/yyyy");
+            controller.InitializeReminder();
 
         }
+
 
         private void calendar_SelectedDatesChanged(object sender, SelectionChangedEventArgs e)
         {
             DateTime? selectedDate = calendar1.SelectedDate;
             dateLabel.Content = selectedDate?.ToShortDateString();
-            if(selectedDate is not  null )
-            {
+            if (selectedDate is not null)
+            {   
                 var filtredDate = controller.GetItemsByDate(selectedDate);
                 listView.ItemsSource = filtredDate;
             }
@@ -35,28 +40,23 @@ namespace MasterPlanner.View
 
         private void Button_Add_Click(object sender, RoutedEventArgs e)
         {
-            //var context = new TestDbContext();
-            var text = "Привет";
-            var date = calendar1.DisplayDate;
-            var dateEnd = calendar1.DisplayDate;
-            var textAndDate = new AddTextAndDate(text, date);
+            var textAndDate = new AddTextAndDate("Привет", DateTime.UtcNow);
             if (textAndDate.ShowDialog() == true)
             {
-                text = textAndDate.noteTextBox.Text;
-                if (textAndDate.datePicker1.SelectedDates == null)
-                {
-                    date = textAndDate.datePicker1.DisplayDate;
-                    dateEnd = textAndDate.datePicker1.DisplayDate;
-                }
-                else
-                {
-                    date = textAndDate.datePicker1.SelectedDates.First();
-                    dateEnd = textAndDate.datePicker1.SelectedDates.Last();
-                }
-                controller.AddItem(date, dateEnd, text);
+                // Создание новой модели с текстом из диалогового окна
+                controller.AddNewNote(
+                    textAndDate.noteTextBox.Text,
+                    textAndDate.datePicker1.SelectedDate,
+                    textAndDate.ShouldAddReminder);
             }
-            //var test = DateTime.Parse(dateLabel.Content.ToString());
+            else
+            {
+                // Обработка случая, когда диалоговое окно закрыто без подтверждения
+                MessageBox.Show("Добавление отменено пользователем.");
+            }
         }
+
+        //var test = DateTime.Parse(dateLabel.Content.ToString());
 
         private void Button_Delete_Click(object sender, RoutedEventArgs e)
         {
@@ -95,5 +95,9 @@ namespace MasterPlanner.View
                 MessageBox.Show("Выберите заметку для редактирования.");
             }
         }
+
+
+        
+
     }
 }

@@ -21,5 +21,13 @@ namespace MasterPlanner.Model
         public DateTime? DateEnd { get; set; }
         [Column("notes")]
         public string? Notes { get; set; }
+
+        [Column("reminder_date")]
+        public DateTime? ReminderDate { get; set; }
+
+        [Column("should_remind")]
+        public bool ShouldRemind { get; set; }
+        [Column("reminder_shown")]
+        public bool ReminderShown { get; set; }
     }
 }

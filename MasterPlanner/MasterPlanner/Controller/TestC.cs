@@ -9,6 +9,10 @@ using Npgsql;
 using System.Configuration;
 using Microsoft.EntityFrameworkCore;
 using static System.Net.Mime.MediaTypeNames;
+using System.Timers;
+using System.Windows.Media.Animation;
+using System.Windows.Threading;
+using System.Windows;
 
 
 
@@ -16,9 +20,19 @@ namespace MasterPlanner.Controller
 {
     class TestC
     {
+        private System.Timers.Timer reminderTimer;
+        private bool isReminderCheckInProgress;
         public ObservableCollection<TestModel> Items { get; set; }
+        private readonly Dispatcher _dispatcher;
+
         public TestC()
         {
+            Items = new ObservableCollection<TestModel>();
+            LoadData();
+        }
+        public TestC(Dispatcher dispatcher)
+        {
+            _dispatcher = dispatcher;
             Items = new ObservableCollection<TestModel>();
             LoadData();
         }
@@ -36,16 +50,15 @@ namespace MasterPlanner.Controller
             }
         }
 
-
         public void ClearData()
         {
             Items.Clear();
         }
-        
+
 
         public ObservableCollection<TestModel> GetItemsByDate(DateTime? date)
         {
-            using(var context = new TestDbContext())
+            using (var context = new TestDbContext())
             {
                 DateTime searchDate = DateTime.SpecifyKind(date.Value, DateTimeKind.Utc);
                 var itemsByDate = context.Notes
@@ -73,6 +86,18 @@ namespace MasterPlanner.Controller
                 LoadData();
             }
         }
+        public void AddItem(TestModel model)
+
+        {
+            using (var context = new TestDbContext())
+            {
+                context.Notes.Add(model);
+                context.SaveChanges();
+                Items.Add(model);
+                ClearData();
+                LoadData();
+            }
+        }
 
         public void DeleteItem(TestModel selectedItems)
         {
@@ -87,8 +112,8 @@ namespace MasterPlanner.Controller
         {
             using (var context = new TestDbContext())
             {
-                var item = context.Notes.FirstOrDefault(x=>x.Id == updateModel.Id);
-                if(item is not null)
+                var item = context.Notes.FirstOrDefault(x => x.Id == updateModel.Id);
+                if (item is not null)
                 {
                     item.Notes = updateModel.Notes;
                     context.SaveChanges();
@@ -99,6 +124,63 @@ namespace MasterPlanner.Controller
                     }
                 }
             }
+        }
+
+        public void InitializeReminder()
+        {
+            reminderTimer = new System.Timers.Timer();
+            reminderTimer.Elapsed += CheckReminderTime;
+            reminderTimer.Interval = 1000;
+            reminderTimer.Start();
+        }
+
+        private void CheckReminderTime(object sender, ElapsedEventArgs e)
+        {
+            if (isReminderCheckInProgress) return;
+            isReminderCheckInProgress = true;
+            using (var context = new TestDbContext())
+            {
+                ;
+                var now = DateTime.UtcNow;
+                var reminders = context.Notes.Where(x => x.ShouldRemind && !x.ReminderShown && x.ReminderDate <= now).ToList();
+                if (reminders.Any())
+                {
+                    reminderTimer.Stop();
+                    _dispatcher.Invoke(() =>
+                    {
+                        foreach (var reminder in reminders)
+                        {
+                            System.Media.SystemSounds.Exclamation.Play();
+                            MessageBox.Show($"Напоминание: {reminder.Notes}");
+                            reminder.ReminderShown = true;
+                        }
+
+                        context.SaveChanges();
+                    });
+
+                    reminderTimer.Start();
+                }
+                isReminderCheckInProgress = false;
+            }
+        }
+        public void AddNewNote(string noteText, DateTime? selectedDate, bool shouldRemind)
+        {
+            var model = new TestModel
+            {
+                Notes = noteText,
+                Date = selectedDate ?? DateTime.UtcNow,
+                DateEnd = selectedDate ?? DateTime.UtcNow,
+                ShouldRemind = shouldRemind
+            };
+
+            if (shouldRemind)
+            {
+                // Если должны установить напоминание, то берем выбранную дату и время и преобразуем в UTC
+                model.ReminderDate = selectedDate?.ToUniversalTime() ?? DateTime.UtcNow;
+            }
+
+            // Добавление записи через контроллер
+            AddItem(model);
         }
 
     }

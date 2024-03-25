@@ -16,6 +16,7 @@
         <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center">
             <Button x:Name="saveButton" Content="Сохранить" Margin="0,0,10,0" Click="SaveButton_Click"/>
             <Button x:Name="cancelButton" Content="Отмена" Margin="0,0,10,0" Click="CancelButton_Click"/>
+            <CheckBox x:Name="addReminderCheckBox" Content="Добавить напоминание" HorizontalAlignment="Left"/>
         </StackPanel>
     </Grid>
 </Window>

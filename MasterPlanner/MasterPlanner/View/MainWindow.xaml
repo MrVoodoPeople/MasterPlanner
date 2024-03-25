@@ -18,7 +18,7 @@
         </Grid.ColumnDefinitions>
 
         <StackPanel Grid.Column="0" Grid.Row="0">
-            <Calendar x:Name="calendar1" SelectedDatesChanged="calendar_SelectedDatesChanged"/>
+            <Calendar x:Name="calendar1" SelectedDatesChanged="calendar_SelectedDatesChanged" />
             <Label x:Name="dateLabel"/>
         </StackPanel>
 
