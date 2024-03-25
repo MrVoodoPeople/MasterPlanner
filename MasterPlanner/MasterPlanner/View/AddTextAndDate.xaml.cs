@@ -32,14 +32,14 @@ namespace MasterPlanner.View
         }
         public DateTime Date
         {
-            get { return datePicker1.DisplayDate; }
+            get { return datePicker1.DisplayDate.ToUniversalTime(); }
             set { datePicker1.DisplayDate = value; }
         }
         public AddTextAndDate(string note, DateTime date)
         {
             InitializeComponent();
             Notes = note;
-            Date = date;
+            Date = date.ToUniversalTime();
 
         }
 

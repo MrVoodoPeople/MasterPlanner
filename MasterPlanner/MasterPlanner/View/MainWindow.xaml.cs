@@ -43,10 +43,11 @@ namespace MasterPlanner.View
             var textAndDate = new AddTextAndDate("Привет", DateTime.UtcNow);
             if (textAndDate.ShowDialog() == true)
             {
+                var date = (DateTime)textAndDate.datePicker1.SelectedDate;
                 // Создание новой модели с текстом из диалогового окна
                 controller.AddNewNote(
                     textAndDate.noteTextBox.Text,
-                    textAndDate.datePicker1.SelectedDate,
+                    date.ToUniversalTime(),
                     textAndDate.ShouldAddReminder);
             }
             else
