@@ -44,18 +44,22 @@ namespace MasterPlanner.View
             if (textAndDate.ShowDialog() == true)
             {
                 DateTime date;
-                if (textAndDate.datePicker1.SelectedDate is not null)
+                DateTime date_end;
+                if (textAndDate.datePicker1.SelectedDates is not null)
                 {
-                    date = (DateTime)textAndDate.datePicker1.SelectedDate;
+                    date = (DateTime)textAndDate.datePicker1.SelectedDates.First();
+                    date_end = (DateTime)textAndDate.datePicker1.SelectedDates.Last();
                 }
                 else
                 {
                     date = DateTime.UtcNow;
+                    date_end = DateTime.UtcNow;
                 }
                     // Создание новой модели с текстом из диалогового окна
                     controller.AddNewNote(
                         textAndDate.noteTextBox.Text,
                         date.ToUniversalTime(),
+                        date_end.ToUniversalTime(),
                         textAndDate.ShouldAddReminder);
                
             }

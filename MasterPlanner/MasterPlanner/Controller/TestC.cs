@@ -163,13 +163,13 @@ namespace MasterPlanner.Controller
                 isReminderCheckInProgress = false;
             }
         }
-        public void AddNewNote(string noteText, DateTime? selectedDate, bool shouldRemind)
+        public void AddNewNote(string noteText, DateTime? selectedDate, DateTime? endDate, bool shouldRemind)
         {
             var model = new TestModel
             {
                 Notes = noteText,
                 Date = selectedDate ?? DateTime.UtcNow,
-                DateEnd = selectedDate ?? DateTime.UtcNow,
+                DateEnd = endDate ?? DateTime.UtcNow,
                 ShouldRemind = shouldRemind
             };
 
