@@ -40,12 +40,12 @@ namespace MasterPlanner.View
 
         private void Button_Add_Click(object sender, RoutedEventArgs e)
         {
-            var textAndDate = new AddTextAndDate("Привет", DateTime.UtcNow);
+            var textAndDate = new AddTextAndDate("", DateTime.UtcNow);
             if (textAndDate.ShowDialog() == true)
             {
                 DateTime date;
                 DateTime date_end;
-                if (textAndDate.datePicker1.SelectedDates is not null)
+                if (textAndDate.datePicker1.SelectedDates.Count() != 0)
                 {
                     date = (DateTime)textAndDate.datePicker1.SelectedDates.First();
                     date_end = (DateTime)textAndDate.datePicker1.SelectedDates.Last();
