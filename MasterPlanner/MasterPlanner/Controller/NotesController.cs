@@ -18,28 +18,28 @@ using System.Windows;
 
 namespace MasterPlanner.Controller
 {
-    class TestC
+    class NotesController
     {
         private System.Timers.Timer reminderTimer;
         private bool isReminderCheckInProgress;
-        public ObservableCollection<TestModel> Items { get; set; }
+        public ObservableCollection<PlannerNote> Items { get; set; }
         private readonly Dispatcher _dispatcher;
 
-        public TestC()
+        public NotesController()
         {
-            Items = new ObservableCollection<TestModel>();
+            Items = new ObservableCollection<PlannerNote>();
             LoadData();
         }
-        public TestC(Dispatcher dispatcher)
+        public NotesController(Dispatcher dispatcher)
         {
             _dispatcher = dispatcher;
-            Items = new ObservableCollection<TestModel>();
+            Items = new ObservableCollection<PlannerNote>();
             LoadData();
         }
 
         public void LoadData()
         {
-            using (var context = new TestDbContext())
+            using (var context = new PlannerDbContext())
             {
                 var items = context.Notes.ToList();
                 foreach (var item in items)
@@ -56,23 +56,23 @@ namespace MasterPlanner.Controller
         }
 
 
-        public ObservableCollection<TestModel> GetItemsByDate(DateTime? date)
+        public ObservableCollection<PlannerNote> GetItemsByDate(DateTime? date)
         {
-            using (var context = new TestDbContext())
+            using (var context = new PlannerDbContext())
             {
                 DateTime searchDate = DateTime.SpecifyKind(date.Value, DateTimeKind.Utc);
                 var itemsByDate = context.Notes
                     .Where(x => x.Date == searchDate.Date)
                     .ToList();
-                return new ObservableCollection<TestModel>(itemsByDate);
+                return new ObservableCollection<PlannerNote>(itemsByDate);
             }
         }
         public void AddItem(DateTime date, DateTime dateEnd, string notes)
 
         {
-            using (var context = new TestDbContext())
+            using (var context = new PlannerDbContext())
             {
-                TestModel model = new TestModel()
+                PlannerNote model = new PlannerNote()
                 {
                     Date = date.ToUniversalTime(),
                     DateEnd = dateEnd.ToUniversalTime(),
@@ -86,10 +86,10 @@ namespace MasterPlanner.Controller
                 LoadData();
             }
         }
-        public void AddItem(TestModel model)
+        public void AddItem(PlannerNote model)
 
         {
-            using (var context = new TestDbContext())
+            using (var context = new PlannerDbContext())
             {
                 context.Notes.Add(model);
                 context.SaveChanges();
@@ -99,18 +99,18 @@ namespace MasterPlanner.Controller
             }
         }
 
-        public void DeleteItem(TestModel selectedItems)
+        public void DeleteItem(PlannerNote selectedItems)
         {
-            using (var context = new TestDbContext())
+            using (var context = new PlannerDbContext())
             {
                 context.Entry(selectedItems).State = EntityState.Deleted;
                 context.SaveChanges();
                 Items.Remove(selectedItems);
             }
         }
-        public void UpdateItem(TestModel updateModel)
+        public void UpdateItem(PlannerNote updateModel)
         {
-            using (var context = new TestDbContext())
+            using (var context = new PlannerDbContext())
             {
                 var item = context.Notes.FirstOrDefault(x => x.Id == updateModel.Id);
                 if (item is not null)
@@ -138,7 +138,7 @@ namespace MasterPlanner.Controller
         {
             if (isReminderCheckInProgress) return;
             isReminderCheckInProgress = true;
-            using (var context = new TestDbContext())
+            using (var context = new PlannerDbContext())
             {
                 ;
                 var now = DateTime.UtcNow;
@@ -165,7 +165,7 @@ namespace MasterPlanner.Controller
         }
         public void AddNewNote(string noteText, DateTime? selectedDate, DateTime? endDate, bool shouldRemind)
         {
-            var model = new TestModel
+            var model = new PlannerNote
             {
                 Notes = noteText,
                 Date = selectedDate ?? DateTime.UtcNow,

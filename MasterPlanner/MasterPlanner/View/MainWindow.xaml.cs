@@ -5,6 +5,8 @@ using System.Timers;
 using System.Windows;
 using System.Windows.Controls;
 using static System.Runtime.InteropServices.JavaScript.JSType;
+using System.Windows.Input;
+
 
 namespace MasterPlanner.View
 {
@@ -13,13 +15,13 @@ namespace MasterPlanner.View
     /// </summary>
     public partial class MainWindow : Window
     {
-        private TestC controller;
+        private NotesController controller;
         private bool isReminderCheckInProgress;
 
         public MainWindow()
         {
             InitializeComponent();
-            controller = new TestC(this.Dispatcher);
+            controller = new NotesController(this.Dispatcher);
             this.DataContext = controller;
             dateLabel.Content = DateTime.Now.ToString("dd/MM/yyyy");
             controller.InitializeReminder();
@@ -75,11 +77,11 @@ namespace MasterPlanner.View
         private void Button_Delete_Click(object sender, RoutedEventArgs e)
         {
 
-            var selected = listView.SelectedItem as TestModel;
+            var selected = listView.SelectedItem as PlannerNote;
 
             if (selected != null)
             {
-                using (var context = new TestDbContext())
+                using (var context = new PlannerDbContext())
                 {
                     controller.DeleteItem(selected);
                 }
@@ -91,9 +93,9 @@ namespace MasterPlanner.View
             }
         }
 
-        private void Button_Edit_Click(object sender, RoutedEventArgs e)
+        private void EditNoteDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
-            var selected = listView.SelectedItem as TestModel;
+            var selected = listView.SelectedItem as PlannerNote;
             if (selected != null)
             {
                 var editNoteDialog = new EditNoteDialog(selected.Notes);
@@ -109,9 +111,5 @@ namespace MasterPlanner.View
                 MessageBox.Show("Выберите заметку для редактирования.");
             }
         }
-
-
-        
-
     }
 }

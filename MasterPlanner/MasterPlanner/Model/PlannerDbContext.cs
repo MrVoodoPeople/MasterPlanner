@@ -9,9 +9,9 @@ using System.Configuration;
 
 namespace MasterPlanner.Model
 {
-    class TestDbContext:DbContext
+    class PlannerDbContext:DbContext
     {
-        public DbSet<TestModel> Notes { get; set; }
+        public DbSet<PlannerNote> Notes { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

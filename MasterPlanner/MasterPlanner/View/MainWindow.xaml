@@ -22,10 +22,9 @@
             <Label x:Name="dateLabel"/>
         </StackPanel>
 
-        <ListView x:Name="listView" ItemsSource="{Binding Items}" Grid.Column="1">
+        <ListView x:Name="listView" ItemsSource="{Binding Items}" Grid.Column="1" MouseDoubleClick="EditNoteDoubleClick">
             <ListView.View>
                 <GridView>
-                    <GridViewColumn Header="ID" DisplayMemberBinding="{Binding Id}" />
                     <GridViewColumn Header="Date" DisplayMemberBinding="{Binding Date}" />
                     <GridViewColumn Header="DateEnd" DisplayMemberBinding="{Binding DateEnd}" />
                     <GridViewColumn Header="Notes" DisplayMemberBinding="{Binding Notes}" Width="Auto"/>
@@ -36,7 +35,6 @@
         <StackPanel Grid.Column="2" Grid.Row="0">
             <Button Content="Добавить" Click="Button_Add_Click" />
             <Button Content= "Удалить"  Click="Button_Delete_Click"/>
-            <Button Content= "Изменить" Click="Button_Edit_Click"/>
 
         </StackPanel>
     </Grid>
