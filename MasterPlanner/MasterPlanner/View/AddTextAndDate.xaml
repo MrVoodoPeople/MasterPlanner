@@ -11,7 +11,7 @@
             <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
-        <TextBox x:Name="noteTextBox" Grid.Row="0" TextWrapping="Wrap" Margin="0,0,0,212"/>
+        <TextBox x:Name="noteTextBox" FontSize="32" Grid.Row="0" TextWrapping="Wrap" Margin="0,0,0,212"/>
         <Calendar Name="datePicker1" HorizontalContentAlignment="Center" SelectionMode="SingleRange" Margin="0,202,0,0" />
         <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center">
             <Button x:Name="saveButton" Content="Сохранить" Margin="0,0,10,0" Click="SaveButton_Click"/>

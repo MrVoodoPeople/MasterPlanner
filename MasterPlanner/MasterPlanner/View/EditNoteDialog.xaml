@@ -5,13 +5,13 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MasterPlanner.View"
         mc:Ignorable="d"
-        Title="EditNoteDialog" Height="200" Width="300">
+        Title="EditNoteDialog" Height="400" Width="600">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
-        <TextBox x:Name="noteTextBox" Grid.Row="0" TextWrapping="Wrap" Margin="0,0,0,10"/>
+        <TextBox x:Name="noteTextBox" FontSize="32" Grid.Row="0" TextWrapping="Wrap" Margin="0,0,0,10"/>
             <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center">
             <Button x:Name="saveButton" Content="Сохранить" Margin="0,0,10,0" Click="SaveButton_Click"/>
             <Button x:Name="cancelButton" Content="Отмена" Margin="0,0,10,0" Click="CancelButton_Click"/>
