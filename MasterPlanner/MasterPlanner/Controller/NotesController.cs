@@ -13,6 +13,7 @@ using System.Timers;
 using System.Windows.Media.Animation;
 using System.Windows.Threading;
 using System.Windows;
+using System.Windows.Controls;
 
 
 
@@ -35,6 +36,11 @@ namespace MasterPlanner.Controller
             _dispatcher = dispatcher;
             Items = new ObservableCollection<PlannerNote>();
             LoadData();
+        }
+
+        public int ItemCount()
+        {
+            return Items.Count;
         }
 
         public void LoadData()

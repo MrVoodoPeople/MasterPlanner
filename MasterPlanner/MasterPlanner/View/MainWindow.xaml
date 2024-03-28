@@ -35,7 +35,7 @@
         <StackPanel Grid.Column="2" Grid.Row="0">
             <Button Content="Добавить" Click="Button_Add_Click" />
             <Button Content= "Удалить"  Click="Button_Delete_Click"/>
-
+            <Label x:Name="noteCount"/>
         </StackPanel>
     </Grid>
 </Window>

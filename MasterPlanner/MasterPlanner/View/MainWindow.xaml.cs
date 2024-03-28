@@ -25,9 +25,14 @@ namespace MasterPlanner.View
             this.DataContext = controller;
             dateLabel.Content = DateTime.Now.ToString("dd/MM/yyyy");
             controller.InitializeReminder();
-
+            item_Count();
         }
 
+        public void item_Count()
+        {
+            int count = controller.ItemCount();
+            noteCount.Content = count + " notes";
+        }
 
         private void calendar_SelectedDatesChanged(object sender, SelectionChangedEventArgs e)
         {
@@ -63,7 +68,7 @@ namespace MasterPlanner.View
                         date.ToUniversalTime(),
                         date_end.ToUniversalTime(),
                         textAndDate.ShouldAddReminder);
-               
+                item_Count();
             }
             else
             {
@@ -86,6 +91,7 @@ namespace MasterPlanner.View
                     controller.DeleteItem(selected);
                 }
                 listView.Items.Refresh();
+                item_Count();
             }
             else
             {
