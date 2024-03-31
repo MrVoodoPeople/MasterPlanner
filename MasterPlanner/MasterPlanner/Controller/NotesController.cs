@@ -107,6 +107,8 @@ namespace MasterPlanner.Controller
         public void CalculateTotalPages()
         {
             TotalPages = (int)Math.Ceiling(Items.Count / (double)ItemsPerPage);
+            if (CurrentPage > TotalPages)
+                CurrentPage = TotalPages;
         }
         public void UpdateCurrentPageItems()
         {
