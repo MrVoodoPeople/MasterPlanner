@@ -13,29 +13,74 @@ using System.Timers;
 using System.Windows.Media.Animation;
 using System.Windows.Threading;
 using System.Windows;
+<<<<<<< Updated upstream
 using System.Windows.Controls;
+=======
+using Npgsql.PostgresTypes;
+using System.ComponentModel;
+>>>>>>> Stashed changes
 
 
 
 namespace MasterPlanner.Controller
 {
-    class NotesController
+    class NotesController : INotifyPropertyChanged
     {
+        private int _currentPage = 1;
+        private int _totalPages;
         private System.Timers.Timer reminderTimer;
         private bool isReminderCheckInProgress;
         public ObservableCollection<PlannerNote> Items { get; set; }
+        public ObservableCollection<PlannerNote> CurrentPageItems { get; set; }
+        public int CurrentPage
+        {
+            get { return _currentPage; }
+            set
+            {
+                if (_currentPage != value)
+                {
+                    _currentPage = value;
+                    OnPropertyChanged(nameof(CurrentPage));
+                    UpdateCurrentPageItems();
+                }
+            }
+        }
+        public int TotalPages
+        {
+            get => _totalPages;
+            set
+            {
+                if (_totalPages != value)
+                {
+                    _totalPages = value;
+                    OnPropertyChanged(nameof(TotalPages));
+                }
+            }
+        }
+        public int ItemsPerPage { get; set; } = 15;
         private readonly Dispatcher _dispatcher;
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        protected virtual void OnPropertyChanged(string propertyName)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
 
         public NotesController()
         {
             Items = new ObservableCollection<PlannerNote>();
+            CurrentPageItems = new ObservableCollection<PlannerNote>();
             LoadData();
+            CalculateTotalPages();
         }
         public NotesController(Dispatcher dispatcher)
         {
             _dispatcher = dispatcher;
             Items = new ObservableCollection<PlannerNote>();
+            CurrentPageItems = new ObservableCollection<PlannerNote>();
             LoadData();
+            CalculateTotalPages();
         }
 
         public int ItemCount()
@@ -53,6 +98,38 @@ namespace MasterPlanner.Controller
                     Items.Add(item);
                 }
 
+            }
+            UpdateCurrentPageItems();
+        }
+        public void CalculateTotalPages()
+        {
+            TotalPages = (int)Math.Ceiling(Items.Count / (double)ItemsPerPage);
+        }
+        public void UpdateCurrentPageItems()
+        {
+            CurrentPageItems.Clear();
+            var itemsToShow = Items.Skip((CurrentPage - 1) * ItemsPerPage).Take(ItemsPerPage);
+            foreach (var item in itemsToShow)
+            {
+                CurrentPageItems.Add(item);
+            }
+        }
+
+        public void GoToNextPage()
+        {
+            if (CurrentPage < TotalPages)
+            {
+                CurrentPage++;
+                //UpdateCurrentPageItems();
+            }
+        }
+
+        public void GoToPreviousPage()
+        {
+            if (CurrentPage > 1)
+            {
+                CurrentPage--;
+                //UpdateCurrentPageItems();
             }
         }
 
@@ -90,6 +167,8 @@ namespace MasterPlanner.Controller
                 Items.Add(model);
                 ClearData();
                 LoadData();
+                CalculateTotalPages();
+                UpdateCurrentPageItems();
             }
         }
         public void AddItem(PlannerNote model)
@@ -102,6 +181,8 @@ namespace MasterPlanner.Controller
                 Items.Add(model);
                 ClearData();
                 LoadData();
+                CalculateTotalPages();
+                UpdateCurrentPageItems();
             }
         }
 
@@ -112,6 +193,8 @@ namespace MasterPlanner.Controller
                 context.Entry(selectedItems).State = EntityState.Deleted;
                 context.SaveChanges();
                 Items.Remove(selectedItems);
+                CalculateTotalPages();
+                UpdateCurrentPageItems();
             }
         }
         public void UpdateItem(PlannerNote updateModel)

@@ -29,5 +29,15 @@ namespace MasterPlanner.Model
         public bool ShouldRemind { get; set; }
         [Column("reminder_shown")]
         public bool ReminderShown { get; set; }
+        public string DateEndDisplay => ConvertUtcToMsk(this.DateEnd);
+
+        private string ConvertUtcToMsk(DateTime? utcDateTime)
+        {
+            if (!utcDateTime.HasValue)
+                return string.Empty;
+
+            // Предполагаем, что MSK = UTC+3.
+            return utcDateTime.Value.AddHours(3).ToString("g");
+        }
     }
 }

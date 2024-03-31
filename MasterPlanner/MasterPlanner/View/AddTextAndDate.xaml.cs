@@ -32,14 +32,39 @@ namespace MasterPlanner.View
         }
         public DateTime Date
         {
-            get { return datePicker1.DisplayDate.ToUniversalTime(); }
-            set { datePicker1.DisplayDate = value; }
+            get
+            {
+                var date = datePicker1.SelectedDate.HasValue ? datePicker1.SelectedDate.Value : DateTime.Now;
+                var hour = hourComboBox.SelectedItem != null ? int.Parse(hourComboBox.SelectedItem.ToString()) : DateTime.Now.Hour;
+                var minute = minuteComboBox.SelectedItem != null ? int.Parse(minuteComboBox.SelectedItem.ToString()) : DateTime.Now.Minute;
+                return new DateTime(date.Year, date.Month, date.Day, hour, minute, 0);
+            }
+            set
+            {
+                datePicker1.SelectedDate = value;
+                hourComboBox.SelectedItem = value.Hour.ToString("00");
+                minuteComboBox.SelectedItem = value.Minute.ToString("00");
+            }
         }
+
         public AddTextAndDate(string note, DateTime date)
         {
             InitializeComponent();
             Notes = note;
-            Date = date.ToUniversalTime();
+            Date = date;
+
+            for (int i = 0; i < 24; i++)
+            {
+                hourComboBox.Items.Add(i.ToString("00"));
+            }
+            for (int i = 0; i < 60; i += 5) // Минуты можно установить с шагом в 5 минут
+            {
+                minuteComboBox.Items.Add(i.ToString("00"));
+            }
+
+            // Установка текущего времени
+            hourComboBox.SelectedItem = date.Hour.ToString("00");
+            minuteComboBox.SelectedItem = date.Minute.ToString("00");
 
         }
 

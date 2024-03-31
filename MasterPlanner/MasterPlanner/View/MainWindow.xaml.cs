@@ -59,11 +59,23 @@ namespace MasterPlanner.View
                 }
                 else
                 {
-                    date = DateTime.UtcNow;
-                    date_end = DateTime.UtcNow;
+                    date = DateTime.Now;
+                    date_end = DateTime.Now;
                 }
-                    // Создание новой модели с текстом из диалогового окна
-                    controller.AddNewNote(
+                if (textAndDate.hourComboBox.SelectedItem != null && textAndDate.minuteComboBox.SelectedItem != null)
+                {
+                    int hour = int.Parse(textAndDate.hourComboBox.SelectedItem.ToString());
+                    int minute = int.Parse(textAndDate.minuteComboBox.SelectedItem.ToString());
+
+                    // Установка времени с учетом локального часового пояса
+                    date = new DateTime(date.Year, date.Month, date.Day, hour, minute, 0);
+                    date_end = new DateTime(date_end.Year, date_end.Month, date_end.Day, hour, minute, 0);
+                }
+
+                DateTime utcDate = date.ToUniversalTime();
+                DateTime utcDateEnd = date_end.ToUniversalTime();
+                // Создание новой модели с текстом из диалогового окна
+                controller.AddNewNote(
                         textAndDate.noteTextBox.Text,
                         date.ToUniversalTime(),
                         date_end.ToUniversalTime(),
@@ -117,5 +129,18 @@ namespace MasterPlanner.View
                 MessageBox.Show("Выберите заметку для редактирования.");
             }
         }
+
+        private void GoToPreviousPage_Click(object sender, RoutedEventArgs e)
+        {
+            controller.GoToPreviousPage();
+        }
+
+        private void GoToNextPage_Click(object sender, RoutedEventArgs e)
+        {
+            controller.GoToNextPage();
+        }
+
     }
+
+
 }

@@ -9,6 +9,7 @@
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
 
@@ -22,15 +23,22 @@
             <Label x:Name="dateLabel"/>
         </StackPanel>
 
-        <ListView x:Name="listView" ItemsSource="{Binding Items}" Grid.Column="1" MouseDoubleClick="EditNoteDoubleClick">
+        <ListView x:Name="listView" ItemsSource="{Binding CurrentPageItems}" Grid.Column="1" MouseDoubleClick="EditNoteDoubleClick">
             <ListView.View>
                 <GridView>
-                    <GridViewColumn Header="Date" DisplayMemberBinding="{Binding Date}" />
-                    <GridViewColumn Header="DateEnd" DisplayMemberBinding="{Binding DateEnd}" />
+                    <GridViewColumn Header="Date" DisplayMemberBinding="{Binding Date, StringFormat='{}{0:d}'}" />
+                    <GridViewColumn Header="DateEnd" DisplayMemberBinding="{Binding DateEndDisplay}" />
                     <GridViewColumn Header="Notes" DisplayMemberBinding="{Binding Notes}" Width="Auto"/>
                 </GridView>
             </ListView.View>
         </ListView>
+        <StackPanel Grid.Column="1"  Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center" Width="Auto">
+            <Button Content="&lt; Prev" Click="GoToPreviousPage_Click" />
+            <TextBlock Text="{Binding CurrentPage}" Margin="10,0" VerticalAlignment="Center"/>
+            <TextBlock Text="/" VerticalAlignment="Center"/>
+            <TextBlock Text="{Binding TotalPages}" Margin="10,0" VerticalAlignment="Center"/>
+            <Button Content="Next &gt;" Click="GoToNextPage_Click" />
+        </StackPanel>
 
         <StackPanel Grid.Column="2" Grid.Row="0">
             <Button Content="Добавить" Click="Button_Add_Click" />
