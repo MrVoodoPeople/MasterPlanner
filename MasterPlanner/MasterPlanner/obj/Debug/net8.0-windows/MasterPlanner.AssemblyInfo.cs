@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("MasterPlanner")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+925fa300e11826f33a00b9e98dca37dae25eb15a")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+37c2d86ad053d491d22804e0ee8979918205cc0e")]
 [assembly: System.Reflection.AssemblyProductAttribute("MasterPlanner")]
 [assembly: System.Reflection.AssemblyTitleAttribute("MasterPlanner")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

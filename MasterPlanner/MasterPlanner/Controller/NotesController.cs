@@ -13,12 +13,8 @@ using System.Timers;
 using System.Windows.Media.Animation;
 using System.Windows.Threading;
 using System.Windows;
-<<<<<<< Updated upstream
-using System.Windows.Controls;
-=======
 using Npgsql.PostgresTypes;
 using System.ComponentModel;
->>>>>>> Stashed changes
 
 
 
@@ -81,11 +77,6 @@ namespace MasterPlanner.Controller
             CurrentPageItems = new ObservableCollection<PlannerNote>();
             LoadData();
             CalculateTotalPages();
-        }
-
-        public int ItemCount()
-        {
-            return Items.Count;
         }
 
         public void LoadData()
