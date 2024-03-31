@@ -21,6 +21,8 @@
         <StackPanel Grid.Column="0" Grid.Row="0">
             <Calendar x:Name="calendar1" SelectedDatesChanged="calendar_SelectedDatesChanged" />
             <Label x:Name="dateLabel"/>
+            <Button Content="Показать заметки для даты" Click="Button_ShowSelectedDates" />
+            <Button Content="Показать все заметки" Click="Button_ShowAllDates" />
         </StackPanel>
 
         <ListView x:Name="listView" ItemsSource="{Binding CurrentPageItems}" Grid.Column="1" MouseDoubleClick="EditNoteDoubleClick" GridViewColumnHeader.Click="GridViewColumnHeaderClick">

@@ -150,8 +150,6 @@ namespace MasterPlanner.Controller
                 var itemsByDate = context.Notes
                     .Where(x => x.Date.Date == searchDate.Date.Date)
                     .ToList();
-                CalculateTotalPages();
-                UpdateCurrentPageItems();
                 return new ObservableCollection<PlannerNote>(itemsByDate);
             }
         }

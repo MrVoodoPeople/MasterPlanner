@@ -8,6 +8,7 @@ using static System.Runtime.InteropServices.JavaScript.JSType;
 using System.Windows.Input;
 using System.ComponentModel;
 using System.Windows.Data;
+using System.Globalization;
 
 
 namespace MasterPlanner.View
@@ -35,11 +36,6 @@ namespace MasterPlanner.View
         {
             DateTime? selectedDate = calendar1.SelectedDate;
             dateLabel.Content = selectedDate?.ToShortDateString();
-            if (selectedDate is not null)
-            {
-                var filtredDate = controller.GetItemsByDate(selectedDate);
-                listView.ItemsSource = filtredDate;
-            }
         }
 
         private void Button_Add_Click(object sender, RoutedEventArgs e)
@@ -198,6 +194,31 @@ namespace MasterPlanner.View
                     _lastDirection = direction;
                 }
             }
+        }
+
+        private void Button_ShowSelectedDates(object sender, RoutedEventArgs e)
+        {
+            DateTime? selectedDate = calendar1.SelectedDate;
+            if (selectedDate is not null)
+            {
+                controller.Items = controller.GetItemsByDate(selectedDate);
+                listView.ItemsSource = controller.CurrentPageItems;
+                controller.CalculateTotalPages();
+                controller.UpdateCurrentPageItems();
+            }
+            else
+            {
+                MessageBox.Show("Не выбраны даты.");
+            }
+        }
+
+        private void Button_ShowAllDates(object sender, RoutedEventArgs e)
+        {
+            controller.ClearData();
+            controller.LoadData();
+            controller.CalculateTotalPages();
+            controller.UpdateCurrentPageItems();
+            listView.ItemsSource = controller.CurrentPageItems;
         }
     }
 
