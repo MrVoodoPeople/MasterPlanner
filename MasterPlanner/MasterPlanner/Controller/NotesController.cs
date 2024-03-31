@@ -78,17 +78,29 @@ namespace MasterPlanner.Controller
             LoadData();
             CalculateTotalPages();
         }
-
-        public void LoadData()
+        string sort = " ";
+        ListSortDirection localDirection = ListSortDirection.Ascending;
+        public void LoadData(string sortBy = " ", ListSortDirection direction = ListSortDirection.Ascending)
         {
             using (var context = new PlannerDbContext())
             {
+                sort = sortBy;
+                localDirection = direction;
                 var items = context.Notes.ToList();
+                if (sortBy == "Date")
+                    items.Sort(new Comparison<PlannerNote>((x, y) => DateTime.Compare(x.Date, y.Date)));
+                else if (sortBy == "DateEnd")
+                    items.Sort(new Comparison<PlannerNote>((x, y) => DateTime.Compare(x.DateEnd, y.DateEnd)));
+                else if (sortBy == "Notes")
+                    items.Sort(new Comparison<PlannerNote>((x, y) => string.Compare(x.Notes, y.Notes)));
+                if (direction == ListSortDirection.Descending)
+                {
+                    items.Reverse();
+                }
                 foreach (var item in items)
                 {
                     Items.Add(item);
                 }
-
             }
             UpdateCurrentPageItems();
         }
@@ -157,7 +169,7 @@ namespace MasterPlanner.Controller
                 context.SaveChanges();
                 Items.Add(model);
                 ClearData();
-                LoadData();
+                LoadData(sort, localDirection);
                 CalculateTotalPages();
                 UpdateCurrentPageItems();
             }
@@ -171,19 +183,24 @@ namespace MasterPlanner.Controller
                 context.SaveChanges();
                 Items.Add(model);
                 ClearData();
-                LoadData();
+                LoadData(sort, localDirection);
                 CalculateTotalPages();
                 UpdateCurrentPageItems();
             }
         }
 
-        public void DeleteItem(PlannerNote selectedItems)
+        public void DeleteItem(PlannerNote[] selectedItems)
         {
             using (var context = new PlannerDbContext())
             {
-                context.Entry(selectedItems).State = EntityState.Deleted;
-                context.SaveChanges();
-                Items.Remove(selectedItems);
+                foreach (var item in selectedItems)
+                {
+                    context.Entry(item).State = EntityState.Deleted;
+                    context.SaveChanges();
+                    Items.Remove(item);
+                }
+                ClearData();
+                LoadData(sort, localDirection);
                 CalculateTotalPages();
                 UpdateCurrentPageItems();
             }

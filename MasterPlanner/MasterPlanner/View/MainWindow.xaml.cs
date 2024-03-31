@@ -6,6 +6,8 @@ using System.Windows;
 using System.Windows.Controls;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 using System.Windows.Input;
+using System.ComponentModel;
+using System.Windows.Data;
 
 
 namespace MasterPlanner.View
@@ -88,14 +90,18 @@ namespace MasterPlanner.View
 
         private void Button_Delete_Click(object sender, RoutedEventArgs e)
         {
+            var selected = listView.SelectedItems;
+            PlannerNote[] selectedPlanner = new PlannerNote[selected.Count];
+            for (int i = 0; i < selected.Count; i++)
+            {
+                selectedPlanner[i] = selected[i] as PlannerNote;
+            }
 
-            var selected = listView.SelectedItem as PlannerNote;
-
-            if (selected != null)
+            if (selectedPlanner != null)
             {
                 using (var context = new PlannerDbContext())
                 {
-                    controller.DeleteItem(selected);
+                    controller.DeleteItem(selectedPlanner);
                 }
                 listView.Items.Refresh();
             }
@@ -134,6 +140,65 @@ namespace MasterPlanner.View
             controller.GoToNextPage();
         }
 
+        private void Sort(string sortBy, ListSortDirection direction)
+        {
+            controller.ClearData();
+            controller.LoadData(sortBy, direction);
+        }
+
+        GridViewColumnHeader _lastHeaderClicked = null;
+        ListSortDirection _lastDirection = ListSortDirection.Ascending;
+        private void GridViewColumnHeaderClick(object sender, RoutedEventArgs e)
+        {
+            var headerClicked = e.OriginalSource as GridViewColumnHeader;
+            ListSortDirection direction;
+
+            if (headerClicked != null)
+            {
+                if (headerClicked.Role != GridViewColumnHeaderRole.Padding)
+                {
+                    if (headerClicked != _lastHeaderClicked)
+                    {
+                        direction = ListSortDirection.Ascending;
+                    }
+                    else
+                    {
+                        if (_lastDirection == ListSortDirection.Ascending)
+                        {
+                            direction = ListSortDirection.Descending;
+                        }
+                        else
+                        {
+                            direction = ListSortDirection.Ascending;
+                        }
+                    }
+
+                    var columnBinding = headerClicked.Column.DisplayMemberBinding as Binding;
+                    var sortBy = columnBinding?.Path.Path ?? headerClicked.Column.Header as string;
+
+                    Sort(sortBy, direction);
+
+                    if (direction == ListSortDirection.Ascending)
+                    {
+                        headerClicked.Column.HeaderTemplate =
+                          Resources["HeaderTemplateArrowUp"] as DataTemplate;
+                    }
+                    else
+                    {
+                        headerClicked.Column.HeaderTemplate =
+                          Resources["HeaderTemplateArrowDown"] as DataTemplate;
+                    }
+
+                    if (_lastHeaderClicked != null && _lastHeaderClicked != headerClicked)
+                    {
+                        _lastHeaderClicked.Column.HeaderTemplate = null;
+                    }
+
+                    _lastHeaderClicked = headerClicked;
+                    _lastDirection = direction;
+                }
+            }
+        }
     }
 
 

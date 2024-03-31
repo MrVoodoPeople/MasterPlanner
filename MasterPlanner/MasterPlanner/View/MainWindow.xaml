@@ -23,7 +23,7 @@
             <Label x:Name="dateLabel"/>
         </StackPanel>
 
-        <ListView x:Name="listView" ItemsSource="{Binding CurrentPageItems}" Grid.Column="1" MouseDoubleClick="EditNoteDoubleClick">
+        <ListView x:Name="listView" ItemsSource="{Binding CurrentPageItems}" Grid.Column="1" MouseDoubleClick="EditNoteDoubleClick" GridViewColumnHeader.Click="GridViewColumnHeaderClick">
             <ListView.View>
                 <GridView>
                     <GridViewColumn Header="Date" DisplayMemberBinding="{Binding Date, StringFormat='{}{0:d}'}" />
