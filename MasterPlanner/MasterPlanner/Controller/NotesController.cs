@@ -148,8 +148,10 @@ namespace MasterPlanner.Controller
             {
                 DateTime searchDate = DateTime.SpecifyKind(date.Value, DateTimeKind.Utc);
                 var itemsByDate = context.Notes
-                    .Where(x => x.Date == searchDate.Date)
+                    .Where(x => x.Date.Date == searchDate.Date.Date)
                     .ToList();
+                CalculateTotalPages();
+                UpdateCurrentPageItems();
                 return new ObservableCollection<PlannerNote>(itemsByDate);
             }
         }
