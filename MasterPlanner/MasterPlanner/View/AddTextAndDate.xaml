@@ -22,11 +22,17 @@
             <Calendar x:Name="datePicker1" HorizontalContentAlignment="Center" SelectionMode="SingleRange"/>
 
             <StackPanel Grid.Column="1" Orientation="Vertical" HorizontalAlignment="Left" VerticalAlignment="Top">
-                <TextBlock Text="Время:" VerticalAlignment="Center" Margin="0,0,10,0"/>
+                <TextBlock Text="Время начала:" VerticalAlignment="Center" Margin="0,0,10,0"/>
                 <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
                     <ComboBox x:Name="hourComboBox" Width="60"/>
                     <TextBlock Text=":" VerticalAlignment="Center" Margin="5,0"/>
                     <ComboBox x:Name="minuteComboBox" Width="60"/>
+                </StackPanel>
+                <TextBlock Text="Время окончания:" VerticalAlignment="Center" Margin="0,0,10,0"/>
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                    <ComboBox x:Name="hourEndComboBox" Width="60"/>
+                    <TextBlock Text=":" VerticalAlignment="Center" Margin="5,0"/>
+                    <ComboBox x:Name="minuteEndComboBox" Width="60"/>
                 </StackPanel>
             </StackPanel>
         </Grid>

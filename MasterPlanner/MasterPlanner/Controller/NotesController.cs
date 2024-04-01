@@ -87,9 +87,9 @@ namespace MasterPlanner.Controller
                 sort = sortBy;
                 localDirection = direction;
                 var items = context.Notes.ToList();
-                if (sortBy == "Date")
+                if (sortBy == "DateDisplay")
                     items.Sort(new Comparison<PlannerNote>((x, y) => DateTime.Compare(x.Date, y.Date)));
-                else if (sortBy == "DateEnd")
+                else if (sortBy == "DateEndDisplay")
                     items.Sort(new Comparison<PlannerNote>((x, y) => DateTime.Compare(x.DateEnd, y.DateEnd)));
                 else if (sortBy == "Notes")
                     items.Sort(new Comparison<PlannerNote>((x, y) => string.Compare(x.Notes, y.Notes)));

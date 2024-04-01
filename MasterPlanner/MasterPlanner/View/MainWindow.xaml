@@ -28,7 +28,7 @@
         <ListView x:Name="listView" ItemsSource="{Binding CurrentPageItems}" Grid.Column="1" MouseDoubleClick="EditNoteDoubleClick" GridViewColumnHeader.Click="GridViewColumnHeaderClick">
             <ListView.View>
                 <GridView>
-                    <GridViewColumn Header="Date" DisplayMemberBinding="{Binding Date, StringFormat='{}{0:d}'}" />
+                    <GridViewColumn Header="Date" DisplayMemberBinding="{Binding DateDisplay}" />
                     <GridViewColumn Header="DateEnd" DisplayMemberBinding="{Binding DateEndDisplay}" />
                     <GridViewColumn Header="Notes" DisplayMemberBinding="{Binding Notes}" Width="Auto"/>
                 </GridView>

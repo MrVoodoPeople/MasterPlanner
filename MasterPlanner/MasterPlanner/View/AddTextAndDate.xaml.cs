@@ -61,10 +61,22 @@ namespace MasterPlanner.View
             {
                 minuteComboBox.Items.Add(i.ToString("00"));
             }
+            // Для последней даты
+            for (int i = 0; i < 24; i++)
+            {
+                hourEndComboBox.Items.Add(i.ToString("00"));
+            }
+            for (int i = 0; i < 60; i += 5) // Минуты можно установить с шагом в 5 минут
+            {
+                minuteEndComboBox.Items.Add(i.ToString("00"));
+            }
 
             // Установка текущего времени
-            hourComboBox.SelectedItem = date.Hour.ToString("00");
-            minuteComboBox.SelectedItem = date.Minute.ToString("00");
+            hourComboBox.SelectedItem = "00";
+            minuteComboBox.SelectedItem = "00";
+
+            hourEndComboBox.SelectedItem = "00";
+            minuteEndComboBox.SelectedItem = "00";
 
         }
 

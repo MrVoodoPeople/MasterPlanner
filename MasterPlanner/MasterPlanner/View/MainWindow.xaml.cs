@@ -40,7 +40,7 @@ namespace MasterPlanner.View
 
         private void Button_Add_Click(object sender, RoutedEventArgs e)
         {
-            var textAndDate = new AddTextAndDate("", DateTime.UtcNow);
+            var textAndDate = new AddTextAndDate("", DateTime.Now);
             if (textAndDate.ShowDialog() == true)
             {
                 DateTime date;
@@ -62,6 +62,13 @@ namespace MasterPlanner.View
 
                     // Установка времени с учетом локального часового пояса
                     date = new DateTime(date.Year, date.Month, date.Day, hour, minute, 0);
+                }
+                if (textAndDate.hourEndComboBox.SelectedItem != null && textAndDate.minuteEndComboBox.SelectedItem != null)
+                {
+                    int hour = int.Parse(textAndDate.hourEndComboBox.SelectedItem.ToString());
+                    int minute = int.Parse(textAndDate.minuteEndComboBox.SelectedItem.ToString());
+
+                    // Установка времени с учетом локального часового пояса
                     date_end = new DateTime(date_end.Year, date_end.Month, date_end.Day, hour, minute, 0);
                 }
 

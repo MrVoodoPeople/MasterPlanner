@@ -30,6 +30,7 @@ namespace MasterPlanner.Model
         [Column("reminder_shown")]
         public bool ReminderShown { get; set; }
         public string DateEndDisplay => ConvertUtcToMsk(this.DateEnd);
+        public string DateDisplay => ConvertUtcToMsk(this.Date);
 
         private string ConvertUtcToMsk(DateTime? utcDateTime)
         {
@@ -37,7 +38,8 @@ namespace MasterPlanner.Model
                 return string.Empty;
 
             // Предполагаем, что MSK = UTC+3.
-            return utcDateTime.Value.AddHours(3).ToString("g");
+            //return utcDateTime.Value.AddHours(3).ToString("g");
+            return utcDateTime.Value.ToString("g");
         }
     }
 }
