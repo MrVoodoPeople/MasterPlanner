@@ -15,6 +15,7 @@ using System.Windows.Threading;
 using System.Windows;
 using Npgsql.PostgresTypes;
 using System.ComponentModel;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 
 
@@ -24,6 +25,9 @@ namespace MasterPlanner.Controller
     {
         private int _currentPage = 1;
         private int _totalPages;
+
+        public DateTime? lastSelectedDate = null;
+
         private System.Timers.Timer reminderTimer;
         private bool isReminderCheckInProgress;
         public ObservableCollection<PlannerNote> Items { get; set; }
@@ -87,6 +91,8 @@ namespace MasterPlanner.Controller
                 sort = sortBy;
                 localDirection = direction;
                 var items = context.Notes.ToList();
+                if (lastSelectedDate != null)
+                    items = GetItemsByDate(lastSelectedDate).ToList();
                 if (sortBy == "DateDisplay")
                     items.Sort(new Comparison<PlannerNote>((x, y) => DateTime.Compare(x.Date, y.Date)));
                 else if (sortBy == "DateEndDisplay")
@@ -107,6 +113,8 @@ namespace MasterPlanner.Controller
         public void CalculateTotalPages()
         {
             TotalPages = (int)Math.Ceiling(Items.Count / (double)ItemsPerPage);
+            if (TotalPages == 0)
+                TotalPages = 1;
             if (CurrentPage > TotalPages)
                 CurrentPage = TotalPages;
         }

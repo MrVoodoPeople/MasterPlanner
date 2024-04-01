@@ -208,6 +208,7 @@ namespace MasterPlanner.View
             DateTime? selectedDate = calendar1.SelectedDate;
             if (selectedDate is not null)
             {
+                controller.lastSelectedDate = selectedDate;
                 controller.Items = controller.GetItemsByDate(selectedDate);
                 listView.ItemsSource = controller.CurrentPageItems;
                 controller.CalculateTotalPages();
@@ -221,6 +222,7 @@ namespace MasterPlanner.View
 
         private void Button_ShowAllDates(object sender, RoutedEventArgs e)
         {
+            controller.lastSelectedDate = null;
             controller.ClearData();
             controller.LoadData();
             controller.CalculateTotalPages();
