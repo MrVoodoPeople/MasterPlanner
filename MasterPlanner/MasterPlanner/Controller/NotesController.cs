@@ -150,7 +150,7 @@ namespace MasterPlanner.Controller
             {
                 DateTime searchDate = DateTime.SpecifyKind(date.Value, DateTimeKind.Utc);
                 var itemsByDate = context.Notes
-                    .Where(x => x.Date.Date == searchDate.Date.Date)
+                    .Where(x => (x.Date.Day == searchDate.Date.Day) & (x.Date.Month == searchDate.Date.Month) & (x.Date.Year == searchDate.Date.Year))
                     .ToList();
                 return new ObservableCollection<PlannerNote>(itemsByDate);
             }
