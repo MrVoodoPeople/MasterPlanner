@@ -75,6 +75,7 @@ namespace MasterPlanner.View
                 DateTime utcDate = date.ToUniversalTime();
                 DateTime utcDateEnd = date_end.ToUniversalTime();
                 // Создание новой модели с текстом из диалогового окна
+                controller.lastSelectedDate = null;
                 controller.AddNewNote(
                         textAndDate.noteTextBox.Text,
                         date.ToUniversalTime(),
