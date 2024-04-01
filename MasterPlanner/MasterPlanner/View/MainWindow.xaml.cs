@@ -72,15 +72,22 @@ namespace MasterPlanner.View
                     date_end = new DateTime(date_end.Year, date_end.Month, date_end.Day, hour, minute, 0);
                 }
 
-                DateTime utcDate = date.ToUniversalTime();
-                DateTime utcDateEnd = date_end.ToUniversalTime();
-                // Создание новой модели с текстом из диалогового окна
-                controller.lastSelectedDate = null;
-                controller.AddNewNote(
-                        textAndDate.noteTextBox.Text,
-                        date.ToUniversalTime(),
-                        date_end.ToUniversalTime(),
-                        textAndDate.ShouldAddReminder);
+                if (date <= date_end)
+                {
+                    // Создание новой модели с текстом из диалогового окна
+                    controller.lastSelectedDate = null;
+                    controller.AddNewNote(
+                            textAndDate.noteTextBox.Text,
+                            date.ToUniversalTime(),
+                            date_end.ToUniversalTime(),
+                            textAndDate.ShouldAddReminder);
+                }
+                else
+                {
+                    MessageBox.Show("Дата начала больше даты окончания!");
+                }
+                //DateTime utcDate = date.ToUniversalTime();
+                //DateTime utcDateEnd = date_end.ToUniversalTime();
 
             }
             else
