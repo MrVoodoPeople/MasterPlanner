@@ -32,6 +32,7 @@ namespace MasterPlanner.Controller
         private bool isReminderCheckInProgress;
         public ObservableCollection<PlannerNote> Items { get; set; }
         public ObservableCollection<PlannerNote> CurrentPageItems { get; set; }
+        public ObservableCollection<PlannerNote> ConflictItems { get; set; }
         public int CurrentPage
         {
             get { return _currentPage; }
@@ -71,6 +72,7 @@ namespace MasterPlanner.Controller
         {
             Items = new ObservableCollection<PlannerNote>();
             CurrentPageItems = new ObservableCollection<PlannerNote>();
+            ConflictItems = new ObservableCollection<PlannerNote>();
             LoadData();
             CalculateTotalPages();
         }
@@ -79,6 +81,7 @@ namespace MasterPlanner.Controller
             _dispatcher = dispatcher;
             Items = new ObservableCollection<PlannerNote>();
             CurrentPageItems = new ObservableCollection<PlannerNote>();
+            ConflictItems = new ObservableCollection<PlannerNote>();
             LoadData();
             CalculateTotalPages();
         }
@@ -117,6 +120,15 @@ namespace MasterPlanner.Controller
                 TotalPages = 1;
             if (CurrentPage > TotalPages)
                 CurrentPage = TotalPages;
+        }
+
+        public void UpdateConflictItems(List<PlannerNote> itemsToShow)
+        {
+            ConflictItems.Clear();
+            foreach (var item in itemsToShow)
+            {
+                ConflictItems.Add(item);
+            }
         }
         public void UpdateCurrentPageItems()
         {

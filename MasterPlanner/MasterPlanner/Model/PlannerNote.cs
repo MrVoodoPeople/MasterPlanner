@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore;
 namespace MasterPlanner.Model 
 {
     [Table ("datenotes")]
-    class PlannerNote
+    public class PlannerNote
     {
         [Key]
         [Column("id")]

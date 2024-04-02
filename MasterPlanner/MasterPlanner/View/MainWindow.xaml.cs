@@ -9,6 +9,7 @@ using System.Windows.Input;
 using System.ComponentModel;
 using System.Windows.Data;
 using System.Globalization;
+using System.Collections.ObjectModel;
 
 
 namespace MasterPlanner.View
@@ -20,6 +21,7 @@ namespace MasterPlanner.View
     {
         private NotesController controller;
         private bool isReminderCheckInProgress;
+        bool isForced = true;
 
         public MainWindow()
         {
@@ -74,13 +76,18 @@ namespace MasterPlanner.View
 
                 if (date <= date_end)
                 {
+                    checkForConflict(date, date_end);
                     // Создание новой модели с текстом из диалогового окна
-                    controller.lastSelectedDate = null;
-                    controller.AddNewNote(
-                            textAndDate.noteTextBox.Text,
-                            date.ToUniversalTime(),
-                            date_end.ToUniversalTime(),
-                            textAndDate.ShouldAddReminder);
+                    if (isForced)
+                    {
+                        controller.lastSelectedDate = null;
+                        controller.AddNewNote(
+                                textAndDate.noteTextBox.Text,
+                                date.ToUniversalTime(),
+                                date_end.ToUniversalTime(),
+                                textAndDate.ShouldAddReminder);
+                    }
+                    isForced = true;
                 }
                 else
                 {
@@ -94,6 +101,37 @@ namespace MasterPlanner.View
             {
                 // Обработка случая, когда диалоговое окно закрыто без подтверждения
                 MessageBox.Show("Добавление отменено пользователем.");
+            }
+        }
+
+        private void checkForConflict(DateTime date, DateTime date_end)
+        {
+            using (var context = new PlannerDbContext())
+            {
+
+                var itemsByDate = context.Notes.ToList();
+                var conflictItems = context.Notes.ToList();
+                foreach (var item in itemsByDate)
+                {
+                    if (!((item.Date <= date_end) & (item.DateEnd >= date)))
+                        conflictItems.Remove(item);
+                }
+                if (conflictItems.Count > 0)
+                {
+                    controller.UpdateConflictItems(conflictItems);
+                    var conflict = new Conflict(controller.ConflictItems);
+                    if (conflict.ShowDialog() == true)
+                    {
+                        isForced = true;
+                    }
+                    else
+                    {
+                        // Обработка случая, когда диалоговое окно закрыто без подтверждения
+                        isForced = false;
+                        MessageBox.Show("Добавление отменено пользователем.");
+                    }
+                }
+                
             }
         }
 

@@ -1,0 +1,45 @@
+﻿<Window
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:MasterPlanner.View"
+        xmlns:Controller="clr-namespace:MasterPlanner.Controller" x:Class="MasterPlanner.View.Conflict"
+        mc:Ignorable="d"
+        Title="Conflict" Height="520" Width="800">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="Auto"/>
+        </Grid.ColumnDefinitions>
+        <StackPanel Grid.Row="0" Grid.ColumnSpan="2" Margin="0,0,10,-47" Grid.RowSpan="2">
+            <Label x:Name="conflictLabel" Content="Время новой заметки конфликтует с уже созданными:" HorizontalAlignment="Center" FontSize="24"/>
+        </StackPanel>
+        <ListView x:Name="listView" ItemsSource="{Binding ConflictItems}" Grid.Column="1" Margin="0,46,10,200" Grid.Row="1">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Header="Date" DisplayMemberBinding="{Binding DateDisplay}" />
+                    <GridViewColumn Header="DateEnd" DisplayMemberBinding="{Binding DateEndDisplay}" />
+                    <GridViewColumn Header="Notes" DisplayMemberBinding="{Binding Notes}" Width="Auto"/>
+                </GridView>
+            </ListView.View>
+        </ListView>
+        <StackPanel Grid.Column="1"  Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center" Width="Auto" Margin="0,426,0,143" RenderTransformOrigin="0.516,-1.098">
+            <Button Content="&lt; Prev" Click="GoToPreviousPage_Click" />
+            <TextBlock x:Name="CurPage" Text="{Binding CurrentPage}" Margin="10,0" VerticalAlignment="Center"/>
+            <TextBlock Text="/" VerticalAlignment="Center"/>
+            <TextBlock x:Name="TotalPage" Text="{Binding TotalPages}" Margin="10,0" VerticalAlignment="Center"/>
+            <Button Content="Next &gt;" Click="GoToNextPage_Click" />
+        </StackPanel>
+        <StackPanel HorizontalAlignment="Left" VerticalAlignment="Top" Grid.Row="1" Grid.Column="1" Height="54" Margin="29,416,0,0" Width="131">
+            <Button Content="Добавить все равно" Click="Button_Force_Add_Click" />
+            <Button Content= "Отмена" Click="Button_Exit_Click" />
+        </StackPanel>
+    </Grid>
+</Window>
